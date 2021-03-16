@@ -24,6 +24,7 @@ var appdPassword=process.env.appdPassword;
 
 var totalDB='';
 var inputDB='';
+var arr='';
 
 const CHOICE_PROMPT = 'choicePrompt';
 const TEXT_PROMPT = 'textPrompt';
@@ -60,9 +61,12 @@ class DbNameDialog extends ComponentDialog {
         {
             for(var i=0;i<totalDB.length;i++)
             {
-              step.context.sendActivity(totalDB[i].name);
+              arr[i]=totalDB[i].name;
             }
-              return await step.prompt(TEXT_PROMPT,'hello! Please enter the Database name from above list');
+            return await step.prompt(CHOICE_PROMPT, {
+              prompt: 'Please select the database',
+              choices: ChoiceFactory.toChoices(arr)
+          });
         }
         else{
           step.context.sendActivity('No Database found');
